@@ -3,28 +3,57 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// function to return max element of array
-int maxElement(int arr[], int n)
+struct pair
 {
-    int max = INT_MIN;
-    for (int i = 0; i < n; i++)
-    {
-        if (arr[i] > max)
-            max = arr[i];
-    }
-    return max;
-}
+    int max;
+    int min;
+};
 
-// function to return min element of array
-int minElement(int arr[], int n)
+// function to return max and min elements in array
+void getminmaxElement(int arr[], int n)
 {
-    int min = INT_MAX;
-    for (int i = 0; i < n; i++)
+    int min, max, i;
+    if (n % 2 == 0)
     {
-        if (arr[i] < min)
-            min = arr[i];
+        if (arr[0] > arr[1])
+        {
+            min = arr[1];
+            max = arr[0];
+        }
+        else
+        {
+            min = arr[0];
+            max = arr[1];
+        }
+        i = 2;
     }
-    return min;
+    else
+    {
+        min = arr[0];
+        max = arr[0];
+        i = 1;
+    }
+
+    // comapring pair wise
+    while (i < n - 1)
+    {
+        if (arr[i] > arr[i + 1])
+        {
+            if (arr[i] > max)
+                max = arr[i];
+            if (arr[i + 1] < min)
+                min = arr[i + 1];
+        }
+        if (arr[i] < arr[i + 1])
+        {
+            if (arr[i + 1] > max)
+                max = arr[i + 1];
+            if (arr[i] < min)
+                min = arr[i + 1];
+        }
+        i += 2;
+    }
+    cout << min << " " << max << endl;
 }
 
 int main()
@@ -38,7 +67,7 @@ int main()
         int arr[n];
         for (int i = 0; i < n; i++)
             cin >> arr[i];
-        cout << maxElement(arr, n) << " " << minElement(arr, n) << endl;
+        getminmaxElement(arr, n);
     }
     return 0;
 }
