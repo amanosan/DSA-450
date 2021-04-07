@@ -6,11 +6,19 @@ using namespace std;
 int duplicate(vector<int> arr)
 {
     int n = arr.size();
-    int sum = n * (n + 1) / 2;
-    int sum_of_array = 0;
+    vector<int> freq(n);
+    // memset(&freq, 0, freq.size());
     for (int i = 0; i < n; i++)
-        sum_of_array += arr[i];
-    return (n - (sum - sum_of_array));
+    {
+        freq[arr[i]]++;
+    }
+
+    for (int i = 0; i < freq.size(); i++)
+    {
+        if (freq[i] > 1)
+            return i;
+    }
+    return -1;
 }
 
 int main()
