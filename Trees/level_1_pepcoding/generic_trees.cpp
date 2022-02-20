@@ -81,6 +81,80 @@ void pre_post_traversal(Node *node)
     cout << "Node Post " << node->data << "\n";
 }
 
+// LEVEL ORDER TRAVERSAL
+void level_order(Node *node)
+{
+    queue<Node *> q;
+    q.push(node);
+    while (!q.empty())
+    {
+        // getting the top
+        Node *temp = q.front();
+        q.pop();
+        cout << temp->data << " ";
+        for (auto c : temp->child)
+            q.push(c);
+    }
+    cout << "\n";
+}
+
+// LEVEL ORDER LINEWISE TRAVERSAL
+void level_order_linewise(Node *node)
+{
+    queue<Node *> q;
+    queue<Node *> child_q;
+    q.push(node);
+    while (!q.empty())
+    {
+        Node *temp = q.front();
+        q.pop();
+        cout << temp->data << " ";
+        for (auto c : temp->child)
+            child_q.push(c);
+
+        if (q.empty())
+        {
+            queue<Node *> empty;
+            q.swap(child_q);     // making the child queue as the main queue
+            child_q.swap(empty); // making the child queue as empty
+            cout << "\n";
+        }
+    }
+}
+
+// LEVEL ORDER LINEWISE ZIGZAG
+void level_order_linewise_zigzag(Node *node)
+{
+    // instead of queues we will use stacks
+    stack<Node *> s;       // main stack
+    stack<Node *> child_s; // child stack
+    int level = 1;
+    s.push(node);
+    while (!s.empty())
+    {
+        Node *temp = s.top();
+        s.pop();
+        cout << temp->data << " ";
+
+        // adding according to the level, since we want zigzag
+        if (level % 2 == 1)
+            for (int i = 0; i < temp->child.size(); i++)
+                child_s.push(temp->child[i]);
+        else
+            for (int i = temp->child.size() - 1; i >= 0; i--)
+                child_s.push(temp->child[i]);
+
+        if (s.empty())
+        {
+            stack<Node *> empty;
+            s.swap(child_s);
+            child_s.swap(empty);
+            level++;
+            cout << "\n";
+        }
+    }
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
@@ -112,5 +186,11 @@ int main()
     cout << "Height: " << height_of_tree(root) << "\n";
     cout << "Traversals\n";
     pre_post_traversal(root);
+    cout << "Level Order Traversal:\n";
+    level_order(root);
+    cout << "Level Order Linewise Traversal:\n";
+    level_order_linewise(root);
+    cout << "Level Order Linewise ZigZag:\n";
+    level_order_linewise_zigzag(root);
     return 0;
 }
