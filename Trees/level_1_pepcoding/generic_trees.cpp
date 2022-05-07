@@ -155,6 +155,45 @@ void level_order_linewise_zigzag(Node *node)
     }
 }
 
+// FUNCTION TO REMOVE LEAVES
+void remove_leaves(Node *node)
+{
+    for (int i = node->child.size() - 1; i >= 0; i--)
+    {
+        Node *c = node->child[i];
+        if (c->child.size() == 0)
+            node->child.erase(node->child.begin() + i);
+    }
+
+    for (auto c : node->child)
+        remove_leaves(c);
+}
+
+// LINEARIZE GENERIC TREE
+Node *get_tail(Node *node)
+{
+    while (node->child.size() == 1)
+    {
+        node = node->child[0];
+    }
+    return node;
+}
+void linearize(Node *node)
+{
+    for (auto c : node->child)
+    {
+        linearize(c);
+    }
+    while (node->child.size() > 1)
+    {
+        Node *last = node->child[node->child.size() - 1];                // getting the last child
+        node->child.erase(node->child.begin() + node->child.size() - 1); // removing the last child
+        Node *second_last = node->child[node->child.size() - 1];         // getting second last child
+        Node *second_last_tail = get_tail(second_last);
+        second_last_tail->child.push_back(last); // connecting tail of second last to last child
+    }
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
@@ -192,5 +231,11 @@ int main()
     level_order_linewise(root);
     cout << "Level Order Linewise ZigZag:\n";
     level_order_linewise_zigzag(root);
+    // cout << "Removing Leaves:\n";
+    // remove_leaves(root);
+    // level_order_linewise(root);
+    cout << "Linearizing the Tree:\n";
+    linearize(root);
+    level_order_linewise(root);
     return 0;
 }
