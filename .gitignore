@@ -1,3 +1,5 @@
 *.exe
 .vscode
 template.cpp
+BST/misc_problems/
+
