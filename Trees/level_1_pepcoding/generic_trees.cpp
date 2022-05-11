@@ -178,6 +178,7 @@ Node *get_tail(Node *node)
     }
     return node;
 }
+// time complexity - O(N^2)
 void linearize(Node *node)
 {
     for (auto c : node->child)
@@ -192,6 +193,26 @@ void linearize(Node *node)
         Node *second_last_tail = get_tail(second_last);
         second_last_tail->child.push_back(last); // connecting tail of second last to last child
     }
+}
+// a better approach - time complexity - O(N)
+Node *linearize_2(Node *node)
+{
+    // base case
+    if (node->child.size() == 0)
+        return node;
+    // linearizing the last node and getting it's tail
+    Node *last_tail = linearize_2(node->child[node->child.size() - 1]);
+    while (node->child.size() > 1)
+    {
+        // getting the last node
+        Node *last = node->child[node->child.size() - 1];
+        // removing the last node now
+        node->child.erase(node->child.begin() + node->child.size() - 1);
+        Node *second_last = node->child[node->child.size() - 1];
+        Node *second_last_tail = linearize_2(second_last);
+        second_last_tail->child.push_back(last);
+    }
+    return last_tail;
 }
 
 int main()
@@ -235,7 +256,8 @@ int main()
     // remove_leaves(root);
     // level_order_linewise(root);
     cout << "Linearizing the Tree:\n";
-    linearize(root);
+    // linearize(root);
+    linearize_2(root);
     level_order_linewise(root);
     return 0;
 }
