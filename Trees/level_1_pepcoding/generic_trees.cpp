@@ -215,6 +215,23 @@ Node *linearize_2(Node *node)
     return last_tail;
 }
 
+// FIND ELEMENT IN TREE
+bool find_element(Node *node, int value)
+{
+    if (node->data == value)
+    {
+        cout << "Found\n";
+        return true;
+    }
+    for (auto c : node->child)
+    {
+        bool is_found = find_element(c, value);
+        if (is_found)
+            return true;
+    }
+    return false;
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
@@ -259,5 +276,7 @@ int main()
     // linearize(root);
     linearize_2(root);
     level_order_linewise(root);
+    cout << "Finding Element:\n";
+    find_element(root, 110);
     return 0;
 }
