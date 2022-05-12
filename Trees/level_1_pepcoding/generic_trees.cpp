@@ -278,6 +278,27 @@ int lowest_common_ancestor(Node *node, int d1, int d2)
     return path1[p1];
 }
 
+// DISTANCE BETWEEN TWO NODES
+int distance_between_nodes(Node *node, int d1, int d2)
+{
+    auto path1 = node_to_root(node, d1);
+    auto path2 = node_to_root(node, d2);
+    int i = path1.size() - 1;
+    int j = path2.size() - 1;
+
+    while (i >= 0 and j >= 0 and path1[i] == path2[j])
+    {
+        i--;
+        j--;
+    }
+    // getting the lowest common ancestor
+    i++;
+    j++;
+    // now the remaining elements will be the distance
+    int dist = i + j;
+    return dist;
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
@@ -331,5 +352,7 @@ int main()
     cout << "\n";
     cout << "Lowest Common Ancestor:\n";
     cout << lowest_common_ancestor(root, 110, 90) << "\n";
+    cout << "Distance between Nodes:\n";
+    cout << distance_between_nodes(root, 70, 110) << "\n";
     return 0;
 }
