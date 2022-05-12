@@ -232,6 +232,30 @@ bool find_element(Node *node, int value)
     return false;
 }
 
+// NODE TO ROOT PATH
+vector<int> node_to_root(Node *node, int data)
+{
+    if (node->data == data)
+    {
+        vector<int> temp;
+        temp.push_back(node->data);
+        return temp;
+    }
+    // searching for path in children of the node
+    for (auto c : node->child)
+    {
+        vector<int> path_till_child = node_to_root(c, data);
+        if (path_till_child.size() > 0)
+        {
+            // this means that there exists a path
+            path_till_child.push_back(node->data);
+            return path_till_child;
+        }
+    }
+    vector<int> temp;
+    return temp;
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
@@ -272,11 +296,16 @@ int main()
     // cout << "Removing Leaves:\n";
     // remove_leaves(root);
     // level_order_linewise(root);
-    cout << "Linearizing the Tree:\n";
+    // cout << "Linearizing the Tree:\n";
     // linearize(root);
-    linearize_2(root);
+    // linearize_2(root);
     level_order_linewise(root);
     cout << "Finding Element:\n";
     find_element(root, 110);
+    cout << "Path from Node till Root:\n";
+    vector<int> ntr = node_to_root(root, 110);
+    for (auto x : ntr)
+        cout << x << " ";
+    cout << "\n";
     return 0;
 }
