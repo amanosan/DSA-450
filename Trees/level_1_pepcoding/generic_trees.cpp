@@ -316,6 +316,25 @@ bool is_similar(Node *node1, Node *node2)
     return true;
 }
 
+// ARE TWO TREES MIRROR IMAGES OF EACH OTHER
+bool is_mirror(Node *node1, Node *node2)
+{
+    if (node1->child.size() != node2->child.size())
+        return false;
+
+    for (int i = 0; i < node1->child.size(); i++)
+    {
+        // pointer from right, i is the pointer from left
+        int j = node1->child.size() - 1 - i;
+        Node *c1 = node1->child[i];
+        Node *c2 = node2->child[j];
+
+        if (is_mirror(c1, c2) == false)
+            return false;
+    }
+    return true;
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
@@ -371,5 +390,16 @@ int main()
     cout << lowest_common_ancestor(root, 110, 90) << "\n";
     cout << "Distance between Nodes:\n";
     cout << distance_between_nodes(root, 70, 110) << "\n";
+    cout << "Checking for Similarity:\n";
+    if (is_similar(root, root))
+        cout << "Similar\n";
+    else
+        cout << "Not Similar\n";
+
+    cout << "Checking for Mirror Image:\n";
+    if (is_mirror(root, root))
+        cout << "Mirror Image\n";
+    else
+        cout << "Not Mirror Image\n";
     return 0;
 }
