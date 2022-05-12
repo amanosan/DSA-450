@@ -335,6 +335,13 @@ bool is_mirror(Node *node1, Node *node2)
     return true;
 }
 
+// IS TREE SYMMETRIC
+bool is_symmetric(Node *node)
+{
+    // a tree is symmetric if it is a mirror image of itself
+    return is_mirror(node, node);
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
@@ -401,5 +408,11 @@ int main()
         cout << "Mirror Image\n";
     else
         cout << "Not Mirror Image\n";
+
+    cout << "Checking for Symmetry:\n";
+    if (is_symmetric(root))
+        cout << "Symmetrical\n";
+    else
+        cout << "Not Symmetrical\n";
     return 0;
 }
