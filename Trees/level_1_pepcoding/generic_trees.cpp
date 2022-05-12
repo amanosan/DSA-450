@@ -342,6 +342,22 @@ bool is_symmetric(Node *node)
     return is_mirror(node, node);
 }
 
+// MULTISOLVER
+int size_tree = 0;
+int min_val = INT_MAX;
+int max_val = INT_MIN;
+int height = 0;
+void multisolver(Node *node, int depth)
+{
+    size_tree++;
+    min_val = min(min_val, node->data);
+    max_val = max(max_val, node->data);
+    height = max(height, depth);
+
+    for (auto c : node->child)
+        multisolver(c, depth + 1);
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
@@ -414,5 +430,12 @@ int main()
         cout << "Symmetrical\n";
     else
         cout << "Not Symmetrical\n";
+
+    cout << "Multisolver Values:\n";
+    multisolver(root, 0);
+    cout << "Size: " << size_tree << "\n";
+    cout << "Min: " << min_val << "\n";
+    cout << "Max: " << max_val << "\n";
+    cout << "Height: " << height << "\n";
     return 0;
 }
