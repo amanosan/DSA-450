@@ -358,6 +358,31 @@ void multisolver(Node *node, int depth)
         multisolver(c, depth + 1);
 }
 
+// PREDECESSOR AND SUCCESSOR OF NODE
+Node *pred;
+Node *succ;
+int state_var1 = 0;
+void pred_succ(Node *node, int val)
+{
+
+    if (state_var1 == 0)
+    {
+        if (node->data == val)
+            state_var1 = 1;
+        else
+            pred = node;
+    }
+    else if (state_var1 == 1)
+    {
+        succ = node;
+        state_var1 = 2;
+    }
+
+    // running for each child of the node
+    for (auto c : node->child)
+        pred_succ(c, val);
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
@@ -437,5 +462,10 @@ int main()
     cout << "Min: " << min_val << "\n";
     cout << "Max: " << max_val << "\n";
     cout << "Height: " << height << "\n";
+
+    cout << "Predecessor and Successor:\n";
+    pred_succ(root, 90);
+    cout << "Predecessor: " << pred->data << "\n";
+    cout << "Successor: " << succ->data << "\n";
     return 0;
 }
