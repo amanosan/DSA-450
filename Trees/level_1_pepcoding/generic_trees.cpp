@@ -256,6 +256,28 @@ vector<int> node_to_root(Node *node, int data)
     return temp;
 }
 
+// LOWEST COMMON ANCESTOR
+int lowest_common_ancestor(Node *node, int d1, int d2)
+{
+    vector<int> path1 = node_to_root(node, d1);
+    vector<int> path2 = node_to_root(node, d2);
+
+    int p1 = path1.size() - 1;
+    int p2 = path2.size() - 1;
+    // the lowest common ancestor will be the last common element in
+    // both the paths from node
+    while (p1 >= 0 and p2 >= 0 and path1[p1] == path2[p2])
+    {
+        p1--;
+        p2--;
+    }
+    // now both the pointers are at the first uncommon element
+    // to get the last common we increment the pointers again
+    p1++;
+    p2++;
+    return path1[p1];
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
@@ -307,5 +329,7 @@ int main()
     for (auto x : ntr)
         cout << x << " ";
     cout << "\n";
+    cout << "Lowest Common Ancestor:\n";
+    cout << lowest_common_ancestor(root, 110, 90) << "\n";
     return 0;
 }
