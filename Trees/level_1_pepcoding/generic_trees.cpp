@@ -299,6 +299,23 @@ int distance_between_nodes(Node *node, int d1, int d2)
     return dist;
 }
 
+// ARE TWO TREES SIMILAR IN SHAPE
+bool is_similar(Node *node1, Node *node2)
+{
+    if (node1->child.size() != node2->child.size())
+        return false;
+
+    for (int i = 0; i < node1->child.size(); i++)
+    {
+        Node *child1 = node1->child[i];
+        Node *child2 = node2->child[i];
+        // checking if children are same
+        if (is_similar(child1, child2) == false)
+            return false;
+    }
+    return true;
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
