@@ -405,6 +405,19 @@ void ceil_floor(Node *node, int data)
     }
 }
 
+// Kth LARGEST ELEMENT
+int kth_largest_val = INT_MAX;
+void kth_largest(Node *node, int k)
+{
+    floor_val = INT_MIN;
+    for (int i = 0; i < k; i++)
+    {
+        ceil_floor(node, kth_largest_val);
+        kth_largest_val = floor_val;
+        floor_val = INT_MIN;
+    }
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
@@ -494,5 +507,9 @@ int main()
     ceil_floor(root, 90);
     cout << "Ceil: " << ceil_val << "\n";
     cout << "Floor: " << floor_val << "\n";
+
+    cout << "Kth Largest value:\n";
+    kth_largest(root, 3);
+    cout << kth_largest_val << "\n";
     return 0;
 }
