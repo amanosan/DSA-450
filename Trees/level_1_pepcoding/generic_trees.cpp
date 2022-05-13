@@ -383,6 +383,28 @@ void pred_succ(Node *node, int val)
         pred_succ(c, val);
 }
 
+// CEIL AND FLOOR OF A NODE
+int ceil_val = INT_MAX;  // smallest among larger
+int floor_val = INT_MIN; // largest among smaller
+int state_var2 = 0;
+void ceil_floor(Node *node, int data)
+{
+    // checking for ceil
+    if (node->data > data)
+        if (node->data < ceil_val)
+            ceil_val = node->data;
+
+    // checking for floor
+    if (node->data < data)
+        if (node->data > floor_val)
+            floor_val = node->data;
+
+    for (auto c : node->child)
+    {
+        ceil_floor(c, data);
+    }
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
@@ -467,5 +489,10 @@ int main()
     pred_succ(root, 90);
     cout << "Predecessor: " << pred->data << "\n";
     cout << "Successor: " << succ->data << "\n";
+
+    cout << "Floor and Ceil values:\n";
+    ceil_floor(root, 90);
+    cout << "Ceil: " << ceil_val << "\n";
+    cout << "Floor: " << floor_val << "\n";
     return 0;
 }
