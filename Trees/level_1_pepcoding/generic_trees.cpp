@@ -418,6 +418,29 @@ void kth_largest(Node *node, int k)
     }
 }
 
+// NODE WITH MAX SUM SUBTREE
+int max_sum = INT_MIN;
+Node *max_node;
+int max_sum_subtree(Node *node)
+{
+    int sum = 0;
+
+    // traversing in post order
+    for (auto c : node->child)
+    {
+        int csum = max_sum_subtree(c);
+        sum += csum;
+    }
+    sum += node->data;
+
+    if (sum > max_sum)
+    {
+        max_sum = sum;
+        max_node = node;
+    }
+    return sum;
+}
+
 int main()
 {
     vector<int> arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1, -1};
@@ -511,5 +534,9 @@ int main()
     cout << "Kth Largest value:\n";
     kth_largest(root, 3);
     cout << kth_largest_val << "\n";
+
+    cout << "Max Sum Subtree:\n";
+    max_sum_subtree(root);
+    cout << max_node->data << " @ " << max_sum << "\n";
     return 0;
 }
